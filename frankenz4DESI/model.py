@@ -119,7 +119,7 @@ class frankenz4DESIKNN(object):
         for idx in tqdm(range(Ndata), disable=(not self.verbose), desc='computing pdf'):
             idxs = neighbors[idx, :Nneighbors[idx]]
             pdf = gauss_kde(self.model_redshift[idxs], 
-                            self.model_redshift_err[idxs],
+                            np.where(self.model_redshift_err[idxs]>0.01, 0.01, self.model_redshift_err[idxs]),
                             self.zgrid, 
                             y_wt=fit_wt[idx, :Nneighbors[idx]],
                             wt_thresh=self.wt_thresh,
